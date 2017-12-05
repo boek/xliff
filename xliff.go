@@ -210,6 +210,20 @@ func (d Document) IsComplete() bool {
 	return true
 }
 
+func (d Document) CompletionPercentage() float32 {
+	var transUnitCount float32 = 0
+	var transUnitIncompleteCount float32 = 0
+	for _, file := range d.Files {
+		for _, transUnit := range file.Body.TransUnits {
+			transUnitCount++
+			if transUnit.Source == "" || transUnit.Target == "" {
+				transUnitIncompleteCount++
+			}
+		}
+	}
+	return 1.0 - (float32(int(transUnitIncompleteCount / transUnitCount * 100)) / 100)
+}
+
 func (d Document) File(original string) (File, bool) {
 	for _, file := range d.Files {
 		if file.Original == original {

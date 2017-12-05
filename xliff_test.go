@@ -132,6 +132,18 @@ func Test_IsInComplete(t *testing.T) {
 	}
 }
 
+func Test_CompletionPercentage(t *testing.T) {
+	doc, err := xliff.FromFile("testdata/focus-ios-it-incomplete.xliff")
+	if err != nil {
+		t.Error("Could not parse testdata/incomplete.xliff:", err)
+	}
+
+	var completionPercentage = doc.CompletionPercentage()
+	if completionPercentage != 0.96 {
+		t.Error("CompletionPercentage should be 0.96")
+	}
+}
+
 func Test_File(t *testing.T) {
 	doc, err := xliff.FromFile("testdata/complete.xliff")
 	if err != nil {
